@@ -130,7 +130,6 @@ app.controller('MainCtrl', function($scope, NowPlaying) {
 
     $scope.nowPlayingRefresh = function(){
       NowPlaying.poll().then(function(resp, status){
-        console.log('totoototelelel');
         $scope.stat = resp.data;
       });
     };
@@ -162,7 +161,7 @@ app.controller('SearchCtrl', function($scope, SponosSearch) {
 
 });
 
-app.controller('ControlsCtrl', function($scope, $route, SponosControls, $location, NowPlaying) {
+app.controller('ControlsCtrl', function($scope, $window, SponosControls, $location, NowPlaying, $http, $ionicModal) {
 
   var doControl = function(action, settings) {
     SponosControls.control(action, settings).then(function(resp) {
@@ -188,6 +187,23 @@ app.controller('ControlsCtrl', function($scope, $route, SponosControls, $locatio
     isQueue = (isQueue)? true: false;
     doControl("play", {value:value, isQueue:isQueue});
   };
+
+  $scope.logout = function(){
+	   $http.get('http://192.168.0.200:8888/auth/logout/').success(function(){
+		    window.location.reload();
+  	 });
+  };
+
+  $scope.loginSubmit = function(){
+
+    console.log(this.username);
+
+     $http.get('http://192.168.0.200:8888/auth/login/?username=' + this.username + '&password=' + this.password).success(function(){
+        window.location.reload();
+     });
+
+  };
+
   
  // $scope.control = function() {
 

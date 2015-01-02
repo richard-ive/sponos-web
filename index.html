@@ -133,7 +133,7 @@
         </ion-side-menu-content>
 
         <!-- Left menu -->
-        <ion-side-menu side="left">
+        <ion-side-menu side="left" ng-controller="ModalCtrl">
 
           <header class="bar bar-header">
             <div class="title">Menu</div>
@@ -142,14 +142,20 @@
           <ion-content class="has-header" has-header="true" >
             <ion-list>
 
-    <div class="item item-divider">
-Actions
-    </div>
+              <div class="item item-divider">
+                Actions
+              </div>
 
-              <ion-item>
-                <i class="icon ion-log-out"></i>
-                Logout
-              </ion-item>
+              <ion-item ng-click="modalLogin()">
+                <i class="icon ion-log-in"></i>
+          		  Login
+          		</ion-item>
+
+          		<ion-item ng-click="logout()">
+            		<i class="icon ion-log-out"></i>
+            		Logout
+          		</ion-item>
+
             </ion-list>
 
 
@@ -244,9 +250,30 @@ Playlists
     </script>
 
 
- <script id="login.html" type="text/ng-template">
-	 <div class="modal">
-		 Login!
+   <script id="login.html" type="text/ng-template">
+  	 <div class="modal">
+        <header class="bar bar-header">
+          <h1 class="title">Login!</h1>
+          <button class="button button-icon icon ion-ios7-close-outline" ng-click="closeModal('Modal')"></button>
+        </header>
+
+        <ion-content class="has-header" has-header="true">
+
+          <form ng-submit="loginSubmit()">
+      		 <div class="list">
+      			    <label class="item item-input">
+      				       <span class="input-label">Username</span>
+      				           <input type="text" name="username" ng-model="$parent.username" />
+      					     </label>
+      					    <label class="item item-input">
+      						  <span class="input-label">Password</span>
+      							<input type="password" name="password" ng-model="$parent.password" />
+      					</label>
+
+                <input type="submit" class="button button-full button-positive" value="Login!" />
+      			</div>
+          </form>
+        </ion-content>
       </div>
     </script>
 
