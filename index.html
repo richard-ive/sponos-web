@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+    
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <link rel="stylesheet" type="text/css" href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+      
+    <script src="js/ionic.bundle.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-route.js"></script>
+    <script src="js/angular/angular-resource.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.1.0/annyang.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>  
+
+    <script src="js/script.js"></script>
+
+  </head>
+
+  <body ng-controller="MainCtrl">
+
+    <ion-side-menus  ng-controller="ControlsCtrl">
+
+    <ion-side-menu-content ng-controller="ContentController">
+
+        <header class="bar bar-header" ng-controller="ModalCtrl">
+          <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+              <div class="range full-width" ng-controller="VolumeCtrl">
+                <i class="icon ion-volume-low" ng-click="volumeMinus10(volume)"></i>
+                <input id="volume" type="range" name="volume" min="0" max="100" ng-change="setVolume()" ng-model="volume" />
+                <i class="icon ion-volume-high" ng-click="volumePlus10(volume)"></i>
+              </div>
+          <button class="button button-icon icon ion-ios7-musical-notes" ng-click="modalNowPlaying();nowPlayingRefresh()"></button>
+        </header>
+ 
+      <ion-tabs class="tabs-icon-only">
+
+          <ion-tab title="Spotify" icon-on="icon ion-ios7-search-strong" icon-off="icon ion-ios7-search">
+             
+              <ion-content class="has-header" has-header="true" has-tabs="true">
+
+                <div ng-controller="SearchCtrl">
+
+                  <div class="list list-inset">
+                    <form ng-submit="search()">
+                      <label class="item item-input">
+                        <i class="icon ion-search placeholder-icon"></i>
+                        <input type="text" placeholder="Search" ng-model="query" ng-change="search()" id="search">
+                      </label>
+                    </form>
+                  </div>
+
+                  <ion-list>
+
+                    <div class="item item-divider">
+                      Albums
+                    </div>
+
+                    <ion-item ng-repeat="album in results.albums" class="item item-thumbnail-left" href="#" ng-click="play('{{album.link}}')">
+                      <img src="{{album.cover}}" class="thumbNail" />
+                      <h2>{{album.name}}</h2>
+                      <p>{{album.artist.name}}</p>
+                    </ion-item>
+
+                    <div class="item item-divider">
+                      Artists
+                    </div>
+
+                    <ion-item ng-repeat="artist in results.artists" class="item item-thumbnail-left" href="#" ng-click="play('{{artist.link}}')">
+                      <img src="{{artist.portrait}}" class="thumbNail" />
+                      <h2>{{artist.name}}</h2>
+                      <p></p>
+                    </ion-item>
+
+                    <div class="item item-divider">
+                      Tracks
+                    </div>
+
+                    <ion-item ng-repeat="track in results.tracks" class="item item-thumbnail-left" href="#" ng-click="play('{{track.link}}')">
+                      <img src="{{track.album.cover}}" class="thumbNail" />
+                      <h2>{{track.name}}</h2>
+                      <p>{{track.artists}}</p>
+                    </ion-item>
+
+                    <div class="item item-divider">
+                      Playlists
+                    </div>
+
+                    <ion-item ng-repeat="playlist in results.playlists" class="item item-thumbnail-left" href="#" ng-click="play('{{playlist.link}}')">
+                      <img src="{{track.album.cover}}" class="thumbNail" />
+                      <h2>{{playlist.name}}</h2>
+                      <p>{{track.artists}}</p>
+                    </ion-item>
+
+
+                  </ion-list>
+
+                </div>
+
+              </ion-content>
+
+          </ion-tab>
+
+          <ion-tab title="Radio" icon-on="icon ion-radio-waves" icon-off="icon ion-radio-waves">
+
+            <ion-content ng-controller="RadioCtrl">
+           
+              <div class="list">
+
+                <div class="item item-divider">
+                  Radio
+                </div>
+
+                <a ng-repeat="radio in stations" class="item" href="#/audio/play/?radio={{radio.url}}" ng-click="control()">
+                  {{radio.name}}
+                </a>
+
+              </div>
+
+            </ion-content>
+
+          </ion-tab>
+
+          <ion-tab title="Alarms" icon-on="icon ion-ios7-alarm" icon-off="icon ion-ios7-alarm-outline">
+           
+
+          </ion-tab>
+
+        </ion-tabs>
+
+        </ion-side-menu-content>
+
+        <!-- Left menu -->
+        <ion-side-menu side="left">
+
+          <header class="bar bar-header">
+            <div class="title">Menu</div>
+          </header>
+          <!-- if you need scroll and click in menu: has-header="true" scroll="true" overflow-scroll="true" -->
+          <ion-content class="has-header" has-header="true" >
+            <ion-list>
+
+    <div class="item item-divider">
+Actions
+    </div>
+
+              <ion-item>
+                <i class="icon ion-log-out"></i>
+                Logout
+              </ion-item>
+            </ion-list>
+
+
+    <div class="item item-divider">
+Playlists
+    </div>
+
+
+              <ion-item ng-repeat="playlist in playlists" href="#" ng-click="play('{{playlist.link}}')">
+                <h2>{{playlist.name}}</h2>
+                <p>{{playlist.owner.display_name}}</p>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+
+        </ion-side-menu>
+
+    </ion-side-menus>
+
+
+    <script id="modal.html" type="text/ng-template">
+      <div class="modal">
+        <header class="bar bar-header">
+          <h1 class="title">Now Playing</h1>
+          <button class="button button-icon icon ion-ios7-close-outline" ng-click="closeModal('Modal')"></button>
+        </header>
+
+        <ion-content class="has-header" has-header="true" has-tabs="true">
+
+        <div class="list card" ng-controller="ControlsCtrl">
+
+
+          <div class="item tabs tabs-secondary tabs-icon-left">
+            <a class="tab-item" ng-click="prev()">
+              <i class="icon ion-ios7-skipbackward"></i>
+            </a>
+
+              <div class="" ng-if="stat.playStatus">
+                <a class="tab-item"  ng-click="pause()">
+                  <i class="icon ion-ios7-pause"></i>
+                </a>
+              </div>
+
+              <div class="" ng-if="!stat.playStatus">
+                <a class="tab-item"  ng-click="play()">
+                  <i class="icon ion-ios7-play"></i>
+                </a>
+              </div>
+            
+
+            <a class="tab-item" ng-click="next()">
+              <i class="icon ion-ios7-skipforward"></i>
+            </a>
+          </div>
+
+          <div class="item item-avatar">
+            <img src="{{stat.queue[stat.playIdx].artwork}}">
+            <h2>{{stat.queue[stat.playIdx].name}}</h2>
+            <p>{{stat.queue[stat.playIdx].artists}}</p>
+          </div>
+
+
+          <div class="list">
+              <a class="item" ng-repeat="track in stat.queue" href="#" ng-click="play('{{$index}}',true)">
+
+
+              <div ng-switch on="track.availability">
+                  <div ng-switch-when="1">
+
+                    <div ng-if="stat.playIdx == $index">
+                      <b>{{track.name}} - {{track.artists}} ({{track.duration}})</b>
+                    </div>
+                    <div ng-if="stat.playIdx != $index">
+                      {{track.name}} - {{track.artists}}  ({{track.duration}})
+                    </div> 
+
+                  </div>
+
+                  <div ng-switch-default>
+                      <del>{{track.name}} - {{track.artists}}  ({{track.duration}})</del>
+                  </div>
+              </div>
+
+              </a>
+          </div>
+
+          </div>
+
+          </div>
+        </on-content>
+      </div>
+    </script>
+
+
+ <script id="login.html" type="text/ng-template">
+	 <div class="modal">
+		 Login!
+      </div>
+    </script>
+
+  </body>
+</html>
