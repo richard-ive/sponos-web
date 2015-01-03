@@ -190,7 +190,7 @@ app.controller('ControlsCtrl', function($scope, $window, SponosControls, $locati
 
   $scope.logout = function(){
 	   $http.get('http://192.168.0.200:8888/auth/logout/').success(function(){
-		    window.location.reload();
+		    location.reload(true);
   	 });
   };
 
@@ -199,7 +199,9 @@ app.controller('ControlsCtrl', function($scope, $window, SponosControls, $locati
     console.log(this.username);
 
      $http.get('http://192.168.0.200:8888/auth/login/?username=' + this.username + '&password=' + this.password).success(function(){
-        window.location.reload();
+        location.reload(true);
+     }).error(function(){
+        alert('Incorrect logins');
      });
 
   };

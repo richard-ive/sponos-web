@@ -3,8 +3,10 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title></title>
-    
+    <title>Sponos Home!</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+        
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/ionic.css">
     <link rel="stylesheet" type="text/css" href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
@@ -14,6 +16,11 @@
     <script src="js/angular/angular-resource.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.1.0/annyang.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>  
+
+    <link rel="apple-touch-icon" href="touch-icon-iphone.png" /> 
+    <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png" /> 
+    <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png" />
 
     <script src="js/script.js"></script>
 
@@ -136,7 +143,7 @@
         <ion-side-menu side="left" ng-controller="ModalCtrl">
 
           <header class="bar bar-header">
-            <div class="title">Menu</div>
+            <div class="title">{{stat.user}}</div>
           </header>
           <!-- if you need scroll and click in menu: has-header="true" scroll="true" overflow-scroll="true" -->
           <ion-content class="has-header" has-header="true" >
@@ -193,14 +200,14 @@ Playlists
               <i class="icon ion-ios7-skipbackward"></i>
             </a>
 
-              <div class="" ng-if="stat.playStatus">
-                <a class="tab-item"  ng-click="pause()">
+              <div class="tab-item" ng-if="stat.playStatus">
+                <a class=""  ng-click="pause()">
                   <i class="icon ion-ios7-pause"></i>
                 </a>
               </div>
 
-              <div class="" ng-if="!stat.playStatus">
-                <a class="tab-item"  ng-click="play()">
+              <div class="tab-item" ng-if="!stat.playStatus">
+                <a class=""  ng-click="play()">
                   <i class="icon ion-ios7-play"></i>
                 </a>
               </div>
